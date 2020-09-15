@@ -12,7 +12,7 @@ output:
 ---
 
 # Declaración de compromiso ético
-Nosotros **AGREGUEN SUS NOMBRES**, declaramos que realizamos de manera grupal los pasos de la presente actividad. También declaramos no incurrir en copia, ni compartir nuestras respuestas con otras personas ni con otros grupos. Por lo que, ratificamos que las respuestas son de nuestra propia confección y reflejan nuestro propio conocimiento.
+Nosotros Francisco Molina y Rodrigo Oportot, declaramos que realizamos de manera grupal los pasos de la presente actividad. También declaramos no incurrir en copia, ni compartir nuestras respuestas con otras personas ni con otros grupos. Por lo que, ratificamos que las respuestas son de nuestra propia confección y reflejan nuestro propio conocimiento.
 
 # Instrucciones
 
@@ -32,12 +32,12 @@ La primera parte de esta actividad son preguntas teóricas que avanzaron en las 
 
 *1. ¿Cuál es el objetivo de Minería de datos y qué la diferencia de Machine Learning? De un ejemplo.*
 
-**Respuesta:**
+**Respuesta: El objetivo principal de la minería de datos es descubrir automáticamente información útil en grandes cantidades de datos, mediante diversas herramientas de varias disciplinas relativamente relacionadas, tales como la estadística, el reconocimiento de patrones en bases de datos que escapen de la magnitud abordable por el ojo humano o el almacenamiento y normalización de bases de datos. Mediante DM, se busca descubrir información útil, extrayendo conocimiento a través de automatizaciones (que pueden ser desarrolladas a partir de ML), permitiendo comprender dicha información de forma mucho más directa una vez ésta sea analizada por una persona. Por otro lado, podemos diferenciarla de Machine Learning en que éste último tiene como fin generar predicciones o preveer resultados esperables en base a datos e información previa, mediante el diseño, desarrollo y entrenamiento de algoritmos sin involucrarse directamente en el tipo de análisis que DM persigue de antemano, ya que dichos algoritmos pueden ser utilizados sobre distintos tipos de datos.**
 
 
 *2. Describa y compare los siguientes métodos usados en Minería de datos: clasificación vs. clustering.*
 
-**Respuesta:**
+**Respuesta: En primera instancia, podemos diferenciar entre métodos descriptivos y métodos predictivos: el primero busca encontrar patrones reconocibles e interpretables por humanos para describir los datos, mientras que el segundo busca predecir variables o datos desconocidas y/o futuras en base a información ya conocida.**
 
 
 *3. ¿Qué desafios existen en Minería de datos?*
