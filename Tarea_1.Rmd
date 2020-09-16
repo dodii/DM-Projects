@@ -39,20 +39,35 @@ La primera parte de esta actividad son preguntas teóricas que avanzaron en las 
 
 **Respuesta: En primera instancia, podemos diferenciar entre métodos descriptivos y métodos predictivos: el primero busca encontrar patrones reconocibles e interpretables por humanos para describir los datos, mientras que el segundo busca predecir variables o datos desconocidas y/o futuras en base a información ya conocida.**
 
+**La clasificación corresponde a un método predictivo, se toma un set de entrenamiento que incluye las etiquetas de clases y tiene por objetivo asignarle una clase a un nuevo elemento. Por otra parte, el clustering es un método descriptivo, que busca encontrar conjuntos de datos que sean similares entre sí, sin utilizar un conjunto de entrenamiento.**
+
 
 *3. ¿Qué desafios existen en Minería de datos?*
 
-**Respuesta:**
+**
+Respuesta:
+Hoy en día la minería de datos tiene varios desafíos: 
+* Escalabilidad: Los modelos de DM deben funcionar tanto en baja escala como en gran escala
+* Dimensionalidad: Se debe encontran un punto de equilibrio entre trabajar con datasets de muchas dimensiones o muy pocas dimensiones. Mientras más dimensiones tenga, más costoso es trabajar. Mientras que menos dimensiones tiene, más difícil es realizar análisis o encontrar patrones.
+* Datos complejos y heterogeneos: Se debe lidiar con datos que pueden no tener una estructura definida (complejos) y datos que por sí sean muy distintos y que no permitan encontrar patrones (heterogeneos).
+* Privacidad: Qué tan privada puede llegar a ser la información presente en los datos públicos.
+* Calidad: Al trabajar con datos de la red usualmente se presentan muchas dificultades con respecto a su calidad, no están bien estructurados, no vienen separados de la manera correcta, faltan datos, hay desbalances, etc...
+* Streaming: Muchos de los datos con los que se trabaja hoy en día provienen de grandes volúmenes de datos que no tienen estructura alguna (YouTube, Facebook, Twitter), por lo que se vuelve costoso trabajar con estos datos).
+**
 
 
 *4. Respecto a los tipos de atributo, ¿cuál es la diferencia entre razón e intervalo?*
 
-**Respuesta:**
+**Respuesta:
+Tanto los datos tipo razón como intervalo corresponden a tipos de datos cuantitativos. Su diferencia fundamental corresponde a que los datos del tipo intervalo no tienen definido un cero absoluto, mientras que los de razón sí. Ejemplos de datos tipo intervalo son: las fechas, temperatura en Celsius y temperatura en Farenheit, pues ninguno de estos datos tiene definido un cero absoluto. Por otra parte, ejemplos de datos tipo razón son: la hora, el largo y la temperatura en Kelvin, pues todos estos sí tienen definido un cero absoluto.
+**
 
 
 *5. ¿Qué factores que ocasionan errores en el análisis de datos deben ser considerados para la limpieza de un set de datos?*
 
-**Respuesta:**
+**Respuesta:
+El ruido (que corresponde a una componente aleatoria en la medición), los outliers (objetos con características considerablemente diferentes a la mayoría), los valores faltantes (que pueden provenir de información no recolectada o atributos no aplicables a todos los grupos) y los datos duplicados.
+**
 
 
 *6. ¿Qué es el análisis exploratorio de datos o EDA?*
@@ -62,7 +77,9 @@ La primera parte de esta actividad son preguntas teóricas que avanzaron en las 
 
 *7. Describa las medidas de tendencia central: media y mediana. Exponga la diferencia entre ambas.*
 
-**Respuesta:**
+**Respuesta: 
+Las medidas de tendencia central tratan de resumir los valores observados en un único valor asociado al valor localizado en el centro. La meddia corresponde al promedio aritmético entre los datos medidos, mientras que la mediana representa al dato que separa la mitad inferior de la mitad superior de las observaciones (está justo en el centro). Estas medidas suelen estar en valores muy cercanos entre sí, aunque no hay que fiarse de que este será siempre el caso: la media es muy sensible a los outliers, mientras que la mediana no.
+**
 
 
 *8. ¿Qué es una matriz de correlación y para qué sirve?*
@@ -72,8 +89,12 @@ La primera parte de esta actividad son preguntas teóricas que avanzaron en las 
 
 *9. Explique cómo se construye un Boxplot y exponga cómo se identifican los valores atípicos u outliers en este tipo de gráfico.*
 
-**Respuesta:**
+**Respuesta: 
+Los boxplots se construyen a partir de los percentiles. Se construye un rectángulo usando el primer y tercer cuartil como límites, de modo que la altura del rectángulo corresponde al rango inter-cuartil RIC; luego se traza una línea que divide al rectángulo en dos, correspondiente a la mediana; y finalmente se extiende cada extremo del rectángulo con brazos de largo Q1 -1.5RIC para la inferior y Q3 + 1.5RIC para el superior. Los valores atípicos son aquellos que quedan fuera tanto del rectángulo como de sus brazos.
+**
 
+
+##----------------------------------------------------------------------------------------------------------------------------------------##
 
 ## Práctica 
 
