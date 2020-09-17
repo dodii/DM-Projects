@@ -267,8 +267,13 @@ Explore el set de datos para responder las siguientes preguntas:
 
 Este tipo de gráfico nos ayudará a entender como se distribuye los datos por cada tipo de accidentes. Es decir, podremos apreciar que tan dispersos o similares son los datos en todo el dataset. También, puede ser útil para observar valores atípicos u outliers en los datos.
 
+
+Se ajustaron los límites del eje Y para ignorar a los outliers que distorsionaban la escala:
 ```{r}
-# RESPUESTA
+regional_2011 = tipos[tipos$Anio == 2011 & tipos$Muestra == "Regional",]
+ggplot(regional_2011, aes(TipoAccidente,Cantidad))+
+  geom_boxplot(notch=FALSE, fill = "#36c6e3")+
+  coord_cartesian(ylim = c(0, 4000))
 ```
 
 2. ¿Qué aprecia con el gráfico anterior? ¿Qué otra forma de explorar los datos podría agregar? ¿Qué información adicional aporta? Adjunte una breve explicación.
