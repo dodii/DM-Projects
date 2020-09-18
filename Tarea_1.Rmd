@@ -39,20 +39,35 @@ La primera parte de esta actividad son preguntas teóricas que avanzaron en las 
 
 **Respuesta: En primera instancia, podemos diferenciar entre métodos descriptivos y métodos predictivos: el primero busca encontrar patrones reconocibles e interpretables por humanos para describir los datos, mientras que el segundo busca predecir variables o datos desconocidas y/o futuras en base a información ya conocida.**
 
+**La clasificación corresponde a un método predictivo, se toma un set de entrenamiento que incluye las etiquetas de clases y tiene por objetivo asignarle una clase a un nuevo elemento. Por otra parte, el clustering es un método descriptivo, que busca encontrar conjuntos de datos que sean similares entre sí, sin utilizar un conjunto de entrenamiento.**
+
 
 *3. ¿Qué desafios existen en Minería de datos?*
 
-**Respuesta:**
+**
+Respuesta:
+Hoy en día la minería de datos tiene varios desafíos: 
+* Escalabilidad: Los modelos de DM deben funcionar tanto en baja escala como en gran escala
+* Dimensionalidad: Se debe encontran un punto de equilibrio entre trabajar con datasets de muchas dimensiones o muy pocas dimensiones. Mientras más dimensiones tenga, más costoso es trabajar. Mientras que menos dimensiones tiene, más difícil es realizar análisis o encontrar patrones.
+* Datos complejos y heterogeneos: Se debe lidiar con datos que pueden no tener una estructura definida (complejos) y datos que por sí sean muy distintos y que no permitan encontrar patrones (heterogeneos).
+* Privacidad: Qué tan privada puede llegar a ser la información presente en los datos públicos.
+* Calidad: Al trabajar con datos de la red usualmente se presentan muchas dificultades con respecto a su calidad, no están bien estructurados, no vienen separados de la manera correcta, faltan datos, hay desbalances, etc...
+* Streaming: Muchos de los datos con los que se trabaja hoy en día provienen de grandes volúmenes de datos que no tienen estructura alguna (YouTube, Facebook, Twitter), por lo que se vuelve costoso trabajar con estos datos).
+**
 
 
 *4. Respecto a los tipos de atributo, ¿cuál es la diferencia entre razón e intervalo?*
 
-**Respuesta:**
+**Respuesta:
+Tanto los datos tipo razón como intervalo corresponden a tipos de datos cuantitativos. Su diferencia fundamental corresponde a que los datos del tipo intervalo no tienen definido un cero absoluto, mientras que los de razón sí. Ejemplos de datos tipo intervalo son: las fechas, temperatura en Celsius y temperatura en Farenheit, pues ninguno de estos datos tiene definido un cero absoluto. Por otra parte, ejemplos de datos tipo razón son: la hora, el largo y la temperatura en Kelvin, pues todos estos sí tienen definido un cero absoluto.
+**
 
 
 *5. ¿Qué factores que ocasionan errores en el análisis de datos deben ser considerados para la limpieza de un set de datos?*
 
-**Respuesta:**
+**Respuesta:
+El ruido (que corresponde a una componente aleatoria en la medición), los outliers (objetos con características considerablemente diferentes a la mayoría), los valores faltantes (que pueden provenir de información no recolectada o atributos no aplicables a todos los grupos) y los datos duplicados.
+**
 
 
 *6. ¿Qué es el análisis exploratorio de datos o EDA?*
@@ -62,7 +77,9 @@ La primera parte de esta actividad son preguntas teóricas que avanzaron en las 
 
 *7. Describa las medidas de tendencia central: media y mediana. Exponga la diferencia entre ambas.*
 
-**Respuesta:**
+**Respuesta: 
+Las medidas de tendencia central tratan de resumir los valores observados en un único valor asociado al valor localizado en el centro. La meddia corresponde al promedio aritmético entre los datos medidos, mientras que la mediana representa al dato que separa la mitad inferior de la mitad superior de las observaciones (está justo en el centro). Estas medidas suelen estar en valores muy cercanos entre sí, aunque no hay que fiarse de que este será siempre el caso: la media es muy sensible a los outliers, mientras que la mediana no.
+**
 
 
 *8. ¿Qué es una matriz de correlación y para qué sirve?*
@@ -72,8 +89,12 @@ La primera parte de esta actividad son preguntas teóricas que avanzaron en las 
 
 *9. Explique cómo se construye un Boxplot y exponga cómo se identifican los valores atípicos u outliers en este tipo de gráfico.*
 
-**Respuesta:**
+**Respuesta: 
+Los boxplots se construyen a partir de los percentiles. Se construye un rectángulo usando el primer y tercer cuartil como límites, de modo que la altura del rectángulo corresponde al rango inter-cuartil RIC; luego se traza una línea que divide al rectángulo en dos, correspondiente a la mediana; y finalmente se extiende cada extremo del rectángulo con brazos de largo Q1 -1.5RIC para la inferior y Q3 + 1.5RIC para el superior. Los valores atípicos son aquellos que quedan fuera tanto del rectángulo como de sus brazos.
+**
 
+
+##----------------------------------------------------------------------------------------------------------------------------------------##
 
 ## Práctica 
 
@@ -93,26 +114,32 @@ data_tf <- read.csv("http://dcc.uchile.cl/~hsarmien/mineria/datasets/actas.txt",
 
 1. ¿Cuáles son las dimensiones del dataset (filas, columnas)? Adjunte código o indique cómo determinó la cantidad de datos total. 
 
+El dataset "data_tf" tiene 327 filas y 113 columnas.
 ```{r}
-# RESPUESTA
+dim(data_tf)
 ```
 
 2. ¿Qué describe cada línea del dataset? (ejemplifique tomando la fila 85)
 
+
+Cada fila describe los resultados de cada encuentro local autoconvocado, cada columna representa la cantidad de veces que apareció un concepto respondiendo a alguna de las preguntas de la ELA. En particular, la fila 85 muestra los resultados del ELA en la ciudad de Andacollo, ubicada en la provincia de Elqui, perteneciente a la región de Coquimbo; y a primera vista se observa que se mencionaron como derechos: la educación, la integridad física y psiquica, la nacionalidad, la salud, etc...
 ```{r}
-# RESPUESTA
+data_tf[85,]
 ```
 
 3. ¿Existen localidades repetidas en el dataset? Adjunte el código o indique cómo llegó a esa conclusión. 
 
+En la pregunta (1) se estableció que el dataset tiene 328 filas, y la función unique muestra 328 resultados distintos para la categoría "localidad". Por lo tanto no hay localidades repetidas.
 ```{r}
-# RESPUESTA
+unique(data_tf["localidad"])
 ```
 
 4. Liste los nombres de las columnas del dataset `data_tf`. Adjunte código en R y *recuerde* usar `head` si el resultado es muy largo.
 
+Dado que hay 113 columnas, se muestran las primeras 6 usando la función head:
+
 ```{r}
-# RESPUESTA
+head(colnames(data_tf))
 ```
 
 
@@ -120,24 +147,25 @@ data_tf <- read.csv("http://dcc.uchile.cl/~hsarmien/mineria/datasets/actas.txt",
 
 1. Liste todas las localidades donde *no* se discutió el concepto `a_la_salud`. 
 
+En sólo 17 localidades no fue discutido el concepto "a_la_salud":
 ```{r}
-# RESPUESTA
+data_tf[data_tf$a_la_salud == 0,c("localidad")]
 ```
 
 2. Liste las 10 localidades que más mencionaron el concepto `justicia`. 
 
+Se obtuvieron ordenando según la columna justicia de modo descendiente:
 ```{r}
-# RESPUESTA
+data_tf[order(-data_tf$justicia),c("localidad","justicia")][0:10,]
 ```
 
 
 3. Liste los 10 conceptos menos mencionados a lo largo de todo el proceso.
 
-
+Para poder sumar las filas por columnas se deja afuera la columna de "localidad", llamando a data_tf[2:113], luego se aplica la función colSums, que realiza sumatorias en las columnas restantes. Finalmente se aplica la función sort sobre lo anterior y se limita a 10 resultados, obteniéndose así los 10 conceptos mencionados a lo larto del proceso junto a su cantidad de apariciones: 
 ```{r}
-# RESPUESTA
+sort(colSums(data_tf[2:113]))[0:10]
 ```
-
 
 4. Liste las 10 localidades que más participaron en el proceso. Describa cómo definió su medida de participación.
 
@@ -165,15 +193,55 @@ Luego, genere un gráfico de barras (ggplot) que muestre los 10 conceptos más m
 Cabe resaltar, que se esperan tres gráficos de barras para las tres diferentes regiones:
 
 ```{r}
+library(stringr)
+texto = function(x){
+  str_to_title(str_replace_all(x,"_", "\n"))
+}
+```
+
+```{r}
 # 10 conceptos más mencionados en Atacama
+topAtacama = as.data.frame(sort(colSums(data_tf[data_tf$region == "Atacama",][3:113]),decreasing = TRUE)[0:10])
+colnames(topAtacama) = c("Apariciones") 
+
+library(ggplot2)
+
+ggplot(topAtacama) +   # asociamos un data frame a ggplot
+  geom_bar(aes(x = reorder(rownames(topAtacama),Apariciones), y = Apariciones), stat="identity", fill = "#3fa31a", space = 3) +   # creamos un grafico de barras como una capa
+  #coord_flip() +  # transformamos el grafico invirtiendo los ejes de coordenadas (sólo visualmente)
+  ggtitle("10 conceptos más mencionados en Atacama") + # título
+  xlab("Concepto") + ylab("Cantidad") + # etiquetas
+  scale_x_discrete(labels = texto)
 ```
 
 ```{r}
 # 10 conceptos más mencionados en Coquimbo
+topCoquimbo = as.data.frame(sort(colSums(data_tf[data_tf$region == "Coquimbo",][3:113]),decreasing = TRUE)[0:10])
+colnames(topCoquimbo) = c("Apariciones") 
+
+library(ggplot2)
+
+ggplot(topCoquimbo) +   # asociamos un data frame a ggplot
+  geom_bar(aes(x = reorder(rownames(topCoquimbo),Apariciones), y = Apariciones), stat="identity", fill = "#e31010", space = 3) +   # creamos un grafico de barras como una capa
+  #coord_flip() +  # transformamos el grafico invirtiendo los ejes de coordenadas (sólo visualmente)
+  ggtitle("10 conceptos más mencionados en Coquimbo") + # título
+  xlab("Concepto") + ylab("Cantidad") + # etiquetas
+  scale_x_discrete(labels = texto)
 ```
 
 ```{r}
-# 10 conceptos más mencionados en Metropolitana de Santiago
+# 10 conceptos más mencionados en Santiago
+topSantiago = as.data.frame(sort(colSums(data_tf[data_tf$region == "Metropolitana de Santiago",][3:113]),decreasing = TRUE)[0:10])
+colnames(topSantiago) = c("Apariciones") 
+
+library(ggplot2)
+
+ggplot(topSantiago) +   # asociamos un data frame a ggplot
+  geom_bar(aes(x = reorder(rownames(topSantiago),Apariciones), y = Apariciones), stat="identity", fill = "#0f1af2", space = 3) +   # creamos un grafico de barras como una capa
+  #coord_flip() +  # transformamos el grafico invirtiendo los ejes de coordenadas (sólo visualmente)
+  ggtitle("10 conceptos más mencionados en Santiago") + # título
+  xlab("Concepto") + ylab("Cantidad") + # etiquetas
+  scale_x_discrete(labels = texto) 
 ```
 
 6. De la pregunta anterior, ¿considera que es razonable usar el conteo de frecuencias para determinar las regiones que tuvieron mayor participación en el proceso? ¿Por qué? Sugiera y solamente comente una forma distinta de hacerlo.
@@ -199,8 +267,13 @@ Explore el set de datos para responder las siguientes preguntas:
 
 Este tipo de gráfico nos ayudará a entender como se distribuye los datos por cada tipo de accidentes. Es decir, podremos apreciar que tan dispersos o similares son los datos en todo el dataset. También, puede ser útil para observar valores atípicos u outliers en los datos.
 
+
+Se ajustaron los límites del eje Y para ignorar a los outliers que distorsionaban la escala:
 ```{r}
-# RESPUESTA
+regional_2011 = tipos[tipos$Anio == 2011 & tipos$Muestra == "Regional",]
+ggplot(regional_2011, aes(TipoAccidente,Cantidad))+
+  geom_boxplot(notch=FALSE, fill = "#36c6e3")+
+  coord_cartesian(ylim = c(0, 4000))
 ```
 
 2. ¿Qué aprecia con el gráfico anterior? ¿Qué otra forma de explorar los datos podría agregar? ¿Qué información adicional aporta? Adjunte una breve explicación.
