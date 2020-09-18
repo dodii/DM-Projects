@@ -109,7 +109,7 @@ data_tf <- read.csv("http://dcc.uchile.cl/~hsarmien/mineria/datasets/actas.txt",
 
 1. ¿Cuáles son las dimensiones del dataset (filas, columnas)? Adjunte código o indique cómo determinó la cantidad de datos total. 
 
-El dataset "data_tf" tiene 327 filas y 113 columnas.
+El dataset "data_tf" tiene 328 filas y 113 columnas.
 ```{r}
 dim(data_tf)
 ```
@@ -117,7 +117,7 @@ dim(data_tf)
 2. ¿Qué describe cada línea del dataset? (ejemplifique tomando la fila 85)
 
 
-Cada fila describe los resultados de cada encuentro local autoconvocado, cada columna representa la cantidad de veces que apareció un concepto respondiendo a alguna de las preguntas de la ELA. En particular, la fila 85 muestra los resultados del ELA en la ciudad de Andacollo, ubicada en la provincia de Elqui, perteneciente a la región de Coquimbo; y a primera vista se observa que se mencionaron como derechos: la educación, la integridad física y psiquica, la nacionalidad, la salud, etc...
+Cada fila describe los resultados de cada encuentro local autoconvocado, cada columna representa la cantidad de veces que apareció un concepto respondiendo a alguna de las preguntas de la ELA por parte de los ciudadanos. En particular, la fila 85 muestra los resultados del ELA en la ciudad de Andacollo, ubicada en la provincia de Elqui, perteneciente a la región de Coquimbo; y a primera vista se observa que se mencionaron conceptos como derechos: la educación, la integridad física y psiquica, la nacionalidad, la salud, etc...
 ```{r}
 data_tf[85,]
 ```
@@ -163,6 +163,7 @@ sort(colSums(data_tf[2:113]))[0:10]
 ```
 
 4. Liste las 10 localidades que más participaron en el proceso. Describa cómo definió su medida de participación.
+
 
 
 ```{r}
