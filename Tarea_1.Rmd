@@ -290,10 +290,11 @@ Realice una exploración por el set de datos para responder las siguientes pregu
 
 1. Teniendo en cuenta las medidas físicas, ¿considera que existen valores inexistentes o inconsistentes? Describa como manejaría esta situación. Adjunte el código necesario.
 
-**Respuesta: Podemos filtrar los datos utilizando el concepto matemático de la desigualdad triangular para encontrar los diamantes cuyas dimensiones sean inconsistentes y/o inexistentes dentro de los datos entregados.**
+**Respuesta: **
 
 ```{r}
 # RESPUESTA
+
 ```
 
 2. Considerando la relación entre dos atributos, ¿qué atributos están más correlacionadas con el precio (price) y qué significa esto? ¿cuál es la correlación más alta para table? Adjunte el código necesario para la respuesta.
