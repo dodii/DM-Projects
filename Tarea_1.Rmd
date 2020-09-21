@@ -109,7 +109,7 @@ data_tf <- read.csv("http://dcc.uchile.cl/~hsarmien/mineria/datasets/actas.txt",
 
 1. ¿Cuáles son las dimensiones del dataset (filas, columnas)? Adjunte código o indique cómo determinó la cantidad de datos total. 
 
-El dataset "data_tf" tiene 327 filas y 113 columnas.
+El dataset "data_tf" tiene 328 filas y 113 columnas.
 ```{r}
 dim(data_tf)
 ```
@@ -117,7 +117,7 @@ dim(data_tf)
 2. ¿Qué describe cada línea del dataset? (ejemplifique tomando la fila 85)
 
 
-Cada fila describe los resultados de cada encuentro local autoconvocado, cada columna representa la cantidad de veces que apareció un concepto respondiendo a alguna de las preguntas de la ELA. En particular, la fila 85 muestra los resultados del ELA en la ciudad de Andacollo, ubicada en la provincia de Elqui, perteneciente a la región de Coquimbo; y a primera vista se observa que se mencionaron como derechos: la educación, la integridad física y psiquica, la nacionalidad, la salud, etc...
+Cada fila describe los resultados de cada encuentro local autoconvocado, cada columna representa la cantidad de veces que apareció un concepto respondiendo a alguna de las preguntas de la ELA por parte de los ciudadanos. En particular, la fila 85 muestra los resultados del ELA en la ciudad de Andacollo, ubicada en la provincia de Elqui, perteneciente a la región de Coquimbo; y a primera vista se observa que se mencionaron conceptos como derechos: la educación, la integridad física y psiquica, la nacionalidad, la salud, etc...
 ```{r}
 data_tf[85,]
 ```
@@ -163,6 +163,7 @@ sort(colSums(data_tf[2:113]))[0:10]
 ```
 
 4. Liste las 10 localidades que más participaron en el proceso. Describa cómo definió su medida de participación.
+
 
 
 ```{r}
@@ -273,7 +274,7 @@ ggplot(regional_2011, aes(TipoAccidente,Cantidad))+
 
 2. ¿Qué aprecia con el gráfico anterior? ¿Qué otra forma de explorar los datos podría agregar? ¿Qué información adicional aporta? Adjunte una breve explicación.
 
-**Respuesta:**
+**Respuesta: Se observan los distintos tipos de accidentes de tránsito y sus cantidades en función de lo pedido en el enunciado. Se puede notar que la mayoría de los accidentes corresponden a colisiones entre vehículos. Al analizar los datos en su forma matricial (filas y columnas), podemos observar que la Región Metropolitana acapara las mayores cantidades en los distintos tipos de accidentes; esto puede deberse a la mayor concentración y número de habitantes y vehículos, en comparación con las otras regiones del país. No obstante, junto con responder la segunda pregunta, hay otros factores por considerar para explorar nuevamente los datos: la proporción de accidentes en función del número de habitantes por cada región, ya que se evidencia cómo la RM altera significativamente la información gráfica al actuar como un outlier, por lo que se podría explorar el dataset apartando a la RM en un análisis separado. Hay que tener en cuenta que otro factor de suma importancia en los accidentes de tránsito es la calidad, competencia y responsabilidad de los conductores, dependiendo esto del grado de fiscalización con que se evalúen los exámenes de conducir, así como el cumplimiento de las leyes de tránsito dentro de las regiones. Una mejor fiscalización y multas más severas para los infractores puede reducir el número de accidentes en el lugar donde dichas condiciones se apliquen, afectando así los datos. Con todo esto en cuenta, si se analiza la RM por separado del resto de las regiones, considerando sus proporciones de ciudadanos y/o vehículos, podrían observarse diferencias sustanciales: quizá en la RM los ciudadanos "conducen mejor" porque la proporción de accidentes en función de ciudadanos y/o vehículos es menor (recalcando que esto es una suposición), sustentándose en el hipotético hecho de que se fiscaliza con más intensidad en tal región, entre otras posibles observaciones que puedan surgir. **
 
 ### Diamantes
 
@@ -288,6 +289,8 @@ head(diamonds)
 Realice una exploración por el set de datos para responder las siguientes preguntas:
 
 1. Teniendo en cuenta las medidas físicas, ¿considera que existen valores inexistentes o inconsistentes? Describa como manejaría esta situación. Adjunte el código necesario.
+
+**Respuesta: Podemos filtrar los datos utilizando el concepto matemático de la desigualdad triangular para encontrar los diamantes cuyas dimensiones sean inconsistentes y/o inexistentes dentro de los datos entregados.**
 
 ```{r}
 # RESPUESTA
