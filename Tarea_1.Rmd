@@ -290,10 +290,34 @@ Realice una exploración por el set de datos para responder las siguientes pregu
 
 1. Teniendo en cuenta las medidas físicas, ¿considera que existen valores inexistentes o inconsistentes? Describa como manejaría esta situación. Adjunte el código necesario.
 
-**Respuesta: **
+**Respuesta: Primero podemos filtrar buscando filas que tengan valores N/A. Luego, podemos revisar si las dimensiones indicadas son consistentes con la realidad. Por ejemplo, no pueden haber diamantes en dimensiones menores a 3, dada la naturaleza de nuestra realidad. En el caso de que sí hubieran, esto representaría una inconsistencia con la información del dataframe. Es por esto que podemos buscar valores mínimos o máximos en las dimensiones como primer acercamiento.**
 
 ```{r}
 # RESPUESTA
+
+#Revisar valores inexistentes
+non_existant = sum(is.na(diamonds))
+non_existant
+
+# Resulta que no hay valores nulos en el dataframe, por lo que queda analizar las dimensiones de forma más específica. Partiremos revisando los valores mínimos que toman las dimensiones de los diamantes.
+
+#Revisaremos con Summary a ver qué aparece.
+summary(diamonds)
+
+#Podemos  notar que para las dimensiones x, y o z, hay valores iguales 0, así como valores demasiado grandes para una escala en centímetros. Respecto a cualquiera de los 3 valores iguales a 0, son dimensiones imposibles de concebir en una realidad de 3 dimensiones. Análogamente, sucede lo mismo con valores demasiado grandes. Veremos algunas de las filas en detalle que presentan valores iguales a 0 en x, y o z.
+head(diamonds[diamonds$x == 0 | diamonds$y == 0 | diamonds$z == 0,])
+
+#Siendo un total de filas de 20
+nrow(diamonds[diamonds$x == 0 | diamonds$y == 0 | diamonds$z == 0,])
+
+#Respecto a los diamantes con algún valor en sus dimensiones demasiado grande, podemos calcular la desviación estándar de cada dimensión y revisar aquellas filas que posean algún valor de x, y o z que se aleje sustancialmente de una cota razonable definida a partir de dicha desviación. Por ejemplo, podríamos buscar las filas que posean alguna de sus dimensiones más allá de 4 veces la desviación estándar de tal dimensión.
+#Insertar código para buscar tales diamantes
+
+#Para abordar estas inconsistencias, hay varios caminos que seguir: en primer lugar, podemos derechamente eliminar las filas inconsistentes según los criterios definidos anteriormente, ya que son pocas en comparació al volumen original del dataframe. Por otro lado, siguiendo una ruta más compleja, se podría definir un tamaño hipotético esperable para los diamantes en función de los datos realmente consistentes, con el fin de rellenar los valores iguales a 0 para los diamantes inconsistentes. Respecto a los valores demasiado grandes, se podría hacer lo mismo, reduciendo tales valores, pero sería más complejo ya que habría que definir una cota, como se mencionó en el apartado anterior. El camino más sencillo es simplemente eliminar los datos inconsistentes, ya que son pocos.
+
+#Insertar código para borrar filas con dimensiones en 0
+#Insertar código para borrar filas con valores de magnitud demasiado grandes para las dimensiones.
+
 
 ```
 
