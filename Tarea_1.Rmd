@@ -303,21 +303,49 @@ non_existant
 
 #Revisaremos con Summary a ver qué aparece.
 summary(diamonds)
+```
 
+```{r}
 #Podemos  notar que para las dimensiones x, y o z, hay valores iguales 0, así como valores demasiado grandes para una escala en centímetros. Respecto a cualquiera de los 3 valores iguales a 0, son dimensiones imposibles de concebir en una realidad de 3 dimensiones. Análogamente, sucede lo mismo con valores demasiado grandes. Veremos algunas de las filas en detalle que presentan valores iguales a 0 en x, y o z.
 head(diamonds[diamonds$x == 0 | diamonds$y == 0 | diamonds$z == 0,])
 
-#Siendo un total de filas de 20
+#Siendo un total de 20 filas    
 nrow(diamonds[diamonds$x == 0 | diamonds$y == 0 | diamonds$z == 0,])
+```
 
-#Respecto a los diamantes con algún valor en sus dimensiones demasiado grande, podemos calcular la desviación estándar de cada dimensión y revisar aquellas filas que posean algún valor de x, y o z que se aleje sustancialmente de una cota razonable definida a partir de dicha desviación. Por ejemplo, podríamos buscar las filas que posean alguna de sus dimensiones más allá de 4 veces la desviación estándar de tal dimensión.
-#Insertar código para buscar tales diamantes
+```{r}
+#Respecto a los diamantes con algún valor en sus dimensiones demasiado grande, podemos calcular la desviación estándar de cada dimensión y revisar aquellas filas que posean algún valor de x, y o z que se aleje sustancialmente de una cota razonable definida a partir de dicha desviación. Por ejemplo, podríamos buscar las filas que posean alguna de sus dimensiones más allá de 9 veces la desviación estándar de tal dimensión.
 
+#Primero calcularemos la desviación estándar de cada dimensión y la amplificaremos por un factor arbitrario.
+f = 9 # factor multiplicativo para la desviación estándar
+sd_x = sd(diamonds$x) * f
+sd_y = sd(diamonds$y) * f
+sd_z = sd(diamonds$z) * f
+
+
+#Ahora buscaremos las filas donde hayan dimensiones que se alejen más de f veces la desviación estándar respectiva a ellas. Mostraremos solo algunas de ellas.
+head(diamonds[diamonds$x > sd_x | diamonds$y > sd_y | diamonds$z > sd_z,])
+
+#Podemos notar la primera inconsistencia de este tipo, donde hay un diamante con una dimensión en y igual a 58.90. Aunque hiciéramos el supuesto de tomarlo como consistente, éste sería mucho más grande que el diamante de igual corte "Premium" de dimensiones (10.14, 10.10, 6.17), pero vale aprox. 3000 menos, lo cual es extraño e inconsistente.
+
+```
+
+```{r}
 #Para abordar estas inconsistencias, hay varios caminos que seguir: en primer lugar, podemos derechamente eliminar las filas inconsistentes según los criterios definidos anteriormente, ya que son pocas en comparació al volumen original del dataframe. Por otro lado, siguiendo una ruta más compleja, se podría definir un tamaño hipotético esperable para los diamantes en función de los datos realmente consistentes, con el fin de rellenar los valores iguales a 0 para los diamantes inconsistentes. Respecto a los valores demasiado grandes, se podría hacer lo mismo, reduciendo tales valores, pero sería más complejo ya que habría que definir una cota, como se mencionó en el apartado anterior. El camino más sencillo es simplemente eliminar los datos inconsistentes, ya que son pocos.
 
-#Insertar código para borrar filas con dimensiones en 0
-#Insertar código para borrar filas con valores de magnitud demasiado grandes para las dimensiones.
+#Podemos crear un nuevo dataframe (para no editar el de la tarea) eliminando los valores que tengan 0 y luego los valores que sean demasiado grandes, usando la libreria dplyr:
+library(tidyverse)
+library(dplyr)
 
+diamonds2<-diamonds %>%
+  filter(!((diamonds$x == 0 | diamonds$y == 0 | diamonds$z == 0)) & !(diamonds$x > sd_x | diamonds$y > sd_y | diamonds$z >sd_z))
+diamonds2
+n1= nrow(diamonds)
+n2 = nrow(diamonds2)
+n1
+n2
+
+#Podemos notar que se eliminan 28 filas de datos inconsistentes según los criterios explicados anteriormente
 
 ```
 
@@ -325,8 +353,15 @@ nrow(diamonds[diamonds$x == 0 | diamonds$y == 0 | diamonds$z == 0,])
 
 ```{r}
 # RESPUESTA
+# Podemos crear una matriz cuyas componentes internas sean gráficos de correlación de a pares para todas las variables en relación al precio:           [codigo]
+
+#También podemos hacer esto para el parámetro table:
+#codigo
+
+
+
 ```
 
 3. Proponga otra forma para explorar los datos. ¿Qué información adicional aporta? Adjunte una breve explicación.
 
-**Respuesta:**
+**Respuesta: Podrían explorarse agrupándose en cúmulos para sus precios según todos los criterios que afecten tal variable: el tamaño, la transparencia, el color, el pulido (que no está en la tabla, pero sirve para ejemplificar), etc. Con tales datos, se podría revisar qué tanto "pesa" cada criterio a la hora de fijar un precio, podría ser que el color de un diamante tenga una ponderación mayor en su valor monetario en comparación al tamaño, entre varios casos más.**
