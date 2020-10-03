@@ -167,7 +167,15 @@ sort(colSums(data_tf[2:113]))[0:10]
 
 
 ```{r}
-# RESPUESTA
+# RESPUESTA: Definimos nuestro criterio de participación en base al total de la suma de los conceptos discutidos por asamblea, lo que sería básicamente un conteo de frecuencias.
+
+sum_rows = rowSums(data_tf[2:113])
+localities = data_tf$localidad
+aux_df = data.frame(localidad = localities, total = sum_rows)
+sorted_df <- aux_df[order(-aux_df$total),]
+head(sorted_df, 10)
+
+
 ```
 
 5. Ejecute el siguiente código que permitirá agregar una nueva columna a nuestro dataframe que solo tendrá el nombre de la región.
@@ -243,7 +251,7 @@ ggplot(topSantiago) +   # asociamos un data frame a ggplot
 6. De la pregunta anterior, ¿considera que es razonable usar el conteo de frecuencias para determinar las regiones que tuvieron mayor participación en el proceso? ¿Por qué? Sugiera y solamente comente una forma distinta de hacerlo.
 
 ```{r}
-# RESPUESTA
+# RESPUESTA: No es razonable para determinar la participación a nivel nacional, dado que distintas regiones tienen distintos tamaños de población. Por lo que regiones con menos participación pero más habitantes podrían dominar el conteo de frecuencias. Una alternativa mejor sería normalizar dicho conteo de frecuencias dividiendo por el total de población de cada región. De ese modo se podría evaluar por porcentajes de población, permitiéndole representación a las regiones con menor población.
 ```
 
 ## Ejercicios
