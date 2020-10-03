@@ -353,15 +353,46 @@ n2
 
 ```{r}
 # RESPUESTA
-# Podemos crear una matriz cuyas componentes internas sean gráficos de correlación de a pares para todas las variables en relación al precio:           [codigo]
+# Podemos calcular la correlación entre el precio y las demás variables con el coeficiente de correlación de Pearson y luego compararlas en un histograma. Usaremos el dataset que no tiene inconsistencias. Solamente analizaremos las variables numéricas
+library(ggplot2)
 
-#También podemos hacer esto para el parámetro table:
-#codigo
+cor_price_carat = cor(diamonds2$price, diamonds2$carat)
+cor_price_depth = cor(diamonds2$price, diamonds2$depth)
+cor_price_table = cor(diamonds2$price, diamonds2$table)
+cor_price_x = cor(diamonds2$price, diamonds2$x)
+cor_price_y = cor(diamonds2$price, diamonds2$y)
+cor_price_z = cor(diamonds2$price, diamonds2$z)
 
+cor_names <- c("cor_price_carat", "cor_price_depth", "cor_price_table", "cor_price_x", "cor_price_y", "cor_price_z")
+cor_vector <- c(cor_price_carat, cor_price_depth, cor_price_table, cor_price_x, cor_price_y, cor_price_z)
 
+cor_df <- data.frame(correlations = cor_vector, cor_names)
+ggplot(data = cor_df, aes(x = cor_names, y = cor_vector)) + geom_point()
+
+#Podemos notar que las correlaciones más altas son con el valor de "carat" y con las dimensiones zdel diamante.
+
+```
+
+```{r}
+#Ahora, para table, el proceso es análogo:
+
+cor_table_carat = cor(diamonds2$table, diamonds2$carat)
+cor_table_depth = cor(diamonds2$table, diamonds2$depth)
+cor_table_price = cor(diamonds2$price, diamonds2$table)
+cor_table_x = cor(diamonds2$table, diamonds2$x)
+cor_table_y = cor(diamonds2$table, diamonds2$y)
+cor_table_z = cor(diamonds2$table, diamonds2$z)
+
+cor_names2 <- c("cor_table_carat", "cor_table_depth", "cor_table_price", "cor_table_x", "cor_table_y", "cor_table_z")
+cor_vector2 <- c(cor_table_carat, cor_table_depth, cor_table_price, cor_table_x, cor_table_y, cor_table_z)
+
+cor_df2 <- data.frame(correlations = cor_vector2, cor_names2)
+ggplot(data = cor_df2, aes(x = cor_names2, y = cor_vector2)) + geom_point()
+
+#En este caso, la correlación es muy alta con las dimensiones, sobretodo en x, y con el parámetro "carat"; no así con el parámetro "depth".
 
 ```
 
 3. Proponga otra forma para explorar los datos. ¿Qué información adicional aporta? Adjunte una breve explicación.
 
-**Respuesta: Podrían explorarse agrupándose en cúmulos para sus precios según todos los criterios que afecten tal variable: el tamaño, la transparencia, el color, el pulido (que no está en la tabla, pero sirve para ejemplificar), etc. Con tales datos, se podría revisar qué tanto "pesa" cada criterio a la hora de fijar un precio, podría ser que el color de un diamante tenga una ponderación mayor en su valor monetario en comparación al tamaño, entre varios casos más.**
+**Respuesta: Podríamos cambiar los valores de tipo string por factores ponderantes numéricos, por ejemplo, el valor "Premium" de la columna "cut" podría tener el máximo valor de 5, y el valor "Fair", uno menor, con el fin de poder calcular matemáticamente el coeficiente de correlación de Pearson. De esta manera, se podrían obtener más correlaciones entre el precio con tales variables.**
