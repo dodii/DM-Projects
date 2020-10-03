@@ -167,7 +167,15 @@ sort(colSums(data_tf[2:113]))[0:10]
 
 
 ```{r}
-# RESPUESTA
+# RESPUESTA: Definimos nuestro criterio de participación en base al total de la suma de los conceptos discutidos por asamblea, lo que sería básicamente un conteo de frecuencias.
+
+sum_rows = rowSums(data_tf[2:113])
+localities = data_tf$localidad
+aux_df = data.frame(localidad = localities, total = sum_rows)
+sorted_df <- aux_df[order(-aux_df$total),]
+head(sorted_df, 10)
+
+
 ```
 
 5. Ejecute el siguiente código que permitirá agregar una nueva columna a nuestro dataframe que solo tendrá el nombre de la región.
@@ -243,7 +251,7 @@ ggplot(topSantiago) +   # asociamos un data frame a ggplot
 6. De la pregunta anterior, ¿considera que es razonable usar el conteo de frecuencias para determinar las regiones que tuvieron mayor participación en el proceso? ¿Por qué? Sugiera y solamente comente una forma distinta de hacerlo.
 
 ```{r}
-# RESPUESTA
+# RESPUESTA: No es razonable para determinar la participación a nivel nacional, dado que distintas regiones tienen distintos tamaños de población. Por lo que regiones con menos participación pero más habitantes podrían dominar el conteo de frecuencias. Una alternativa mejor sería normalizar dicho conteo de frecuencias dividiendo por el total de población de cada región. De ese modo se podría evaluar por porcentajes de población, permitiéndole representación a las regiones con menor población.
 ```
 
 ## Ejercicios
@@ -290,18 +298,109 @@ Realice una exploración por el set de datos para responder las siguientes pregu
 
 1. Teniendo en cuenta las medidas físicas, ¿considera que existen valores inexistentes o inconsistentes? Describa como manejaría esta situación. Adjunte el código necesario.
 
-**Respuesta: Podemos filtrar los datos utilizando el concepto matemático de la desigualdad triangular para encontrar los diamantes cuyas dimensiones sean inconsistentes y/o inexistentes dentro de los datos entregados.**
+**Respuesta: Primero podemos filtrar buscando filas que tengan valores N/A. Luego, podemos revisar si las dimensiones indicadas son consistentes con la realidad. Por ejemplo, no pueden haber diamantes en dimensiones menores a 3, dada la naturaleza de nuestra realidad. En el caso de que sí hubieran, esto representaría una inconsistencia con la información del dataframe. Es por esto que podemos buscar valores mínimos o máximos en las dimensiones como primer acercamiento.**
 
 ```{r}
 # RESPUESTA
+
+#Revisar valores inexistentes
+non_existant = sum(is.na(diamonds))
+non_existant
+
+# Resulta que no hay valores nulos en el dataframe, por lo que queda analizar las dimensiones de forma más específica. Partiremos revisando los valores mínimos que toman las dimensiones de los diamantes.
+
+#Revisaremos con Summary a ver qué aparece.
+summary(diamonds)
+```
+
+```{r}
+#Podemos  notar que para las dimensiones x, y o z, hay valores iguales 0, así como valores demasiado grandes para una escala en centímetros. Respecto a cualquiera de los 3 valores iguales a 0, son dimensiones imposibles de concebir en una realidad de 3 dimensiones. Análogamente, sucede lo mismo con valores demasiado grandes. Veremos algunas de las filas en detalle que presentan valores iguales a 0 en x, y o z.
+head(diamonds[diamonds$x == 0 | diamonds$y == 0 | diamonds$z == 0,])
+
+#Siendo un total de 20 filas    
+nrow(diamonds[diamonds$x == 0 | diamonds$y == 0 | diamonds$z == 0,])
+```
+
+```{r}
+#Respecto a los diamantes con algún valor en sus dimensiones demasiado grande, podemos calcular la desviación estándar de cada dimensión y revisar aquellas filas que posean algún valor de x, y o z que se aleje sustancialmente de una cota razonable definida a partir de dicha desviación. Por ejemplo, podríamos buscar las filas que posean alguna de sus dimensiones más allá de 9 veces la desviación estándar de tal dimensión.
+
+#Primero calcularemos la desviación estándar de cada dimensión y la amplificaremos por un factor arbitrario.
+f = 9 # factor multiplicativo para la desviación estándar
+sd_x = sd(diamonds$x) * f
+sd_y = sd(diamonds$y) * f
+sd_z = sd(diamonds$z) * f
+
+
+#Ahora buscaremos las filas donde hayan dimensiones que se alejen más de f veces la desviación estándar respectiva a ellas. Mostraremos solo algunas de ellas.
+head(diamonds[diamonds$x > sd_x | diamonds$y > sd_y | diamonds$z > sd_z,])
+
+#Podemos notar la primera inconsistencia de este tipo, donde hay un diamante con una dimensión en y igual a 58.90. Aunque hiciéramos el supuesto de tomarlo como consistente, éste sería mucho más grande que el diamante de igual corte "Premium" de dimensiones (10.14, 10.10, 6.17), pero vale aprox. 3000 menos, lo cual es extraño e inconsistente.
+
+```
+
+```{r}
+#Para abordar estas inconsistencias, hay varios caminos que seguir: en primer lugar, podemos derechamente eliminar las filas inconsistentes según los criterios definidos anteriormente, ya que son pocas en comparació al volumen original del dataframe. Por otro lado, siguiendo una ruta más compleja, se podría definir un tamaño hipotético esperable para los diamantes en función de los datos realmente consistentes, con el fin de rellenar los valores iguales a 0 para los diamantes inconsistentes. Respecto a los valores demasiado grandes, se podría hacer lo mismo, reduciendo tales valores, pero sería más complejo ya que habría que definir una cota, como se mencionó en el apartado anterior. El camino más sencillo es simplemente eliminar los datos inconsistentes, ya que son pocos.
+
+#Podemos crear un nuevo dataframe (para no editar el de la tarea) eliminando los valores que tengan 0 y luego los valores que sean demasiado grandes, usando la libreria dplyr:
+library(tidyverse)
+library(dplyr)
+
+diamonds2<-diamonds %>%
+  filter(!((diamonds$x == 0 | diamonds$y == 0 | diamonds$z == 0)) & !(diamonds$x > sd_x | diamonds$y > sd_y | diamonds$z >sd_z))
+diamonds2
+n1= nrow(diamonds)
+n2 = nrow(diamonds2)
+n1
+n2
+
+#Podemos notar que se eliminan 28 filas de datos inconsistentes según los criterios explicados anteriormente
+
 ```
 
 2. Considerando la relación entre dos atributos, ¿qué atributos están más correlacionadas con el precio (price) y qué significa esto? ¿cuál es la correlación más alta para table? Adjunte el código necesario para la respuesta.
 
 ```{r}
 # RESPUESTA
+# Podemos calcular la correlación entre el precio y las demás variables con el coeficiente de correlación de Pearson y luego compararlas en un histograma. Usaremos el dataset que no tiene inconsistencias. Solamente analizaremos las variables numéricas
+library(ggplot2)
+
+cor_price_carat = cor(diamonds2$price, diamonds2$carat)
+cor_price_depth = cor(diamonds2$price, diamonds2$depth)
+cor_price_table = cor(diamonds2$price, diamonds2$table)
+cor_price_x = cor(diamonds2$price, diamonds2$x)
+cor_price_y = cor(diamonds2$price, diamonds2$y)
+cor_price_z = cor(diamonds2$price, diamonds2$z)
+
+cor_names <- c("cor_price_carat", "cor_price_depth", "cor_price_table", "cor_price_x", "cor_price_y", "cor_price_z")
+cor_vector <- c(cor_price_carat, cor_price_depth, cor_price_table, cor_price_x, cor_price_y, cor_price_z)
+
+cor_df <- data.frame(correlations = cor_vector, cor_names)
+ggplot(data = cor_df, aes(x = cor_names, y = cor_vector)) + geom_point()
+
+#Podemos notar que las correlaciones más altas son con el valor de "carat" y con las dimensiones zdel diamante.
+
+```
+
+```{r}
+#Ahora, para table, el proceso es análogo:
+
+cor_table_carat = cor(diamonds2$table, diamonds2$carat)
+cor_table_depth = cor(diamonds2$table, diamonds2$depth)
+cor_table_price = cor(diamonds2$price, diamonds2$table)
+cor_table_x = cor(diamonds2$table, diamonds2$x)
+cor_table_y = cor(diamonds2$table, diamonds2$y)
+cor_table_z = cor(diamonds2$table, diamonds2$z)
+
+cor_names2 <- c("cor_table_carat", "cor_table_depth", "cor_table_price", "cor_table_x", "cor_table_y", "cor_table_z")
+cor_vector2 <- c(cor_table_carat, cor_table_depth, cor_table_price, cor_table_x, cor_table_y, cor_table_z)
+
+cor_df2 <- data.frame(correlations = cor_vector2, cor_names2)
+ggplot(data = cor_df2, aes(x = cor_names2, y = cor_vector2)) + geom_point()
+
+#En este caso, la correlación es muy alta con las dimensiones, sobretodo en x, y con el parámetro "carat"; no así con el parámetro "depth".
+
 ```
 
 3. Proponga otra forma para explorar los datos. ¿Qué información adicional aporta? Adjunte una breve explicación.
 
-**Respuesta:**
+**Respuesta: Podríamos cambiar los valores de tipo string por factores ponderantes numéricos, por ejemplo, el valor "Premium" de la columna "cut" podría tener el máximo valor de 5, y el valor "Fair", uno menor, con el fin de poder calcular matemáticamente el coeficiente de correlación de Pearson. De esta manera, se podrían obtener más correlaciones entre el precio con tales variables.**
